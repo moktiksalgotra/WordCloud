@@ -12,9 +12,7 @@ import Footer from './components/Footer';
 // Styles
 import './App.css';
 
-const API_BASE_URL = process.env.NODE_ENV === 'production'
-  ? 'https://wordcloud-hro4.onrender.com'
-  : 'https://wordcloud-n2ew.onrender.com';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://wordcloud-n2ew.onrender.com';
 
 // Configure axios defaults
 axios.defaults.baseURL = API_BASE_URL;
