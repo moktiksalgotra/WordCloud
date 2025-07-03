@@ -84,6 +84,22 @@ def create_app(config_name='default'):
 app = create_app()
 socketio = SocketIO(app, cors_allowed_origins=["http://localhost:3000", "https://wordcloudapp.onrender.com"])
 
+# Serve static files for the React app
+@app.route('/static/<path:filename>')
+def static_files(filename):
+    """Serve static files for the React app."""
+    return send_file(f'resources/static/static/{filename}')
+
+@app.route('/favicon.ico')
+def favicon():
+    """Serve favicon."""
+    return send_file('resources/static/favicon.ico')
+
+@app.route('/manifest.json')
+def manifest():
+    """Serve manifest file."""
+    return send_file('resources/static/manifest.json')
+
 # Health check endpoint
 @app.route('/health', methods=['GET'])
 def health_check():
@@ -533,11 +549,8 @@ def analytics_dashboard():
 
 @app.route('/generator', methods=['GET'])
 def generator_page():
-    """Placeholder generator endpoint."""
-    return jsonify({
-        'success': True,
-        'message': 'Generator endpoint placeholder.'
-    })
+    """Serve the React frontend application."""
+    return send_file('resources/static/index.html')
 
 @app.route("/", methods=["GET"])
 def root():
