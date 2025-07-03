@@ -517,6 +517,34 @@ def mask_preview():
             'error': 'Error generating shape preview'
         }), 500
 
+@app.route('/api/analytics/dashboard', methods=['GET'])
+def analytics_dashboard():
+    """Placeholder dashboard analytics endpoint."""
+    return jsonify({
+        'success': True,
+        'statistics': {
+            'total_users': 42,
+            'total_wordclouds': 123,
+            'active_sessions': 7
+        }
+    })
+
+@app.route('/generator', methods=['GET'])
+def generator_page():
+    """Placeholder generator endpoint."""
+    return jsonify({
+        'success': True,
+        'message': 'Generator endpoint placeholder.'
+    })
+
+# TODO: Add Flask-SocketIO support here if real-time features are needed.
+# Example:
+# from flask_socketio import SocketIO
+# socketio = SocketIO(app, cors_allowed_origins=["https://wordcloudapp.onrender.com"])
+# @socketio.on('connect')
+# def handle_connect():
+#     pass
+
 if __name__ == '__main__':
     logger.info("Starting Professional Word Cloud Generator API...")
     app.run(debug=True, host='0.0.0.0', port=5000) 
