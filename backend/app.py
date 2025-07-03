@@ -547,6 +547,6 @@ def handle_connect():
 if __name__ == '__main__':
     logger.info("Starting Professional Word Cloud Generator API with WebSocket support...")
     if os.environ.get("RENDER") == "true" or os.environ.get("FLASK_ENV") == "production":
-        socketio.run(app, host='0.0.0.0', port=8000, server='eventlet')
+        socketio.run(app, host='0.0.0.0', port=8000)
     else:
         socketio.run(app, debug=True, host='0.0.0.0', port=8000, allow_unsafe_werkzeug=True) 
