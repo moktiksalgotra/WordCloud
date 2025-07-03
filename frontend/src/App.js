@@ -14,7 +14,7 @@ import './App.css';
 
 const API_BASE_URL = process.env.NODE_ENV === 'production'
   ? 'https://wordcloud-hro4.onrender.com'
-  : 'http://localhost:8000';
+  : 'https://wordcloud-n2ew.onrender.com';
 
 // Configure axios defaults
 axios.defaults.baseURL = API_BASE_URL;
