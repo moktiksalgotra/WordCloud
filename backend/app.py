@@ -539,6 +539,13 @@ def generator_page():
         'message': 'Generator endpoint placeholder.'
     })
 
+@app.route("/", methods=["GET"])
+def root():
+    return jsonify({
+        "message": "Professional Word Cloud Generator API is running!",
+        "success": True
+    })
+
 # Example event handler
 @socketio.on('connect')
 def handle_connect():
