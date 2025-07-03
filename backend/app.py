@@ -11,6 +11,7 @@ from werkzeug.utils import secure_filename
 from PIL import Image
 import io
 import nltk
+from flask_socketio import SocketIO
 
 # Import models
 from models import db, User, WordCloud, Analytics
@@ -70,7 +71,7 @@ def create_app(config_name='default'):
     # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
-    CORS(app, origins=["https://wordcloudapp.onrender.com"])
+    CORS(app, origins=["http://localhost:3000", "https://wordcloudapp.onrender.com"])
     
     # Initialize Celery
     celery.conf.update(app.config)
@@ -81,6 +82,7 @@ def create_app(config_name='default'):
     return app
 
 app = create_app()
+socketio = SocketIO(app, cors_allowed_origins=["http://localhost:3000", "https://wordcloudapp.onrender.com"])
 
 # Health check endpoint
 @app.route('/health', methods=['GET'])
@@ -537,14 +539,11 @@ def generator_page():
         'message': 'Generator endpoint placeholder.'
     })
 
-# TODO: Add Flask-SocketIO support here if real-time features are needed.
-# Example:
-# from flask_socketio import SocketIO
-# socketio = SocketIO(app, cors_allowed_origins=["https://wordcloudapp.onrender.com"])
-# @socketio.on('connect')
-# def handle_connect():
-#     pass
+# Example event handler
+@socketio.on('connect')
+def handle_connect():
+    logger.info('Client connected via WebSocket')
 
 if __name__ == '__main__':
-    logger.info("Starting Professional Word Cloud Generator API...")
-    app.run(debug=True, host='0.0.0.0', port=5000) 
+    logger.info("Starting Professional Word Cloud Generator API with WebSocket support...")
+    socketio.run(app, debug=True, host='0.0.0.0', port=8000) 
