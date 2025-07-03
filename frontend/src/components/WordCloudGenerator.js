@@ -67,10 +67,15 @@ const WordCloudGenerator = () => {
       const minFreq = inputData.min_frequency !== undefined && inputData.min_frequency !== '' 
         ? parseInt(inputData.min_frequency, 10) 
         : null;
-        
       const maxFreq = inputData.max_frequency !== undefined && inputData.max_frequency !== '' 
         ? parseInt(inputData.max_frequency, 10) 
         : null;
+      // Input validation for minFreq and maxFreq
+      if ((minFreq !== null && isNaN(minFreq)) || (maxFreq !== null && isNaN(maxFreq))) {
+        setError('Please enter valid numbers for minimum and maximum frequency.');
+        setIsLoading(false);
+        return;
+      }
       
       console.log(`DEBUG: Sending min_frequency=${minFreq}, max_frequency=${maxFreq}`);
       
