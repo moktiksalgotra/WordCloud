@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import socket from '../socket';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,7 @@ const Dashboard = () => {
       try {
         setLoading(true);
         // Fetch dashboard statistics
-        const statsResponse = await axios.get('/api/analytics/dashboard');
+        const statsResponse = await axios.get(`${API_BASE_URL}/api/analytics/dashboard`);
         setStats(statsResponse.data.statistics);
       } catch (error) {
         console.error('Error loading dashboard data:', error);

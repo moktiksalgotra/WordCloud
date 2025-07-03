@@ -70,7 +70,7 @@ def create_app(config_name='default'):
     # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
-    CORS(app)
+    CORS(app, origins=["https://wordcloud-hro4.onrender.com"])
     
     # Initialize Celery
     celery.conf.update(app.config)

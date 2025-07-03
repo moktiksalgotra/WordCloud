@@ -6,6 +6,8 @@ import WordCloudDisplay from './WordCloudDisplay';
 import MultiSourceInput from './MultiSourceInput';
 import { CloudIcon, DocumentTextIcon, LinkIcon } from '@heroicons/react/24/outline';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 const WordCloudGenerator = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [wordCloudData, setWordCloudData] = useState(null);
@@ -26,7 +28,7 @@ const WordCloudGenerator = () => {
       // Fetch the word cloud from the backend
       setIsLoading(true);
       setError(null);
-      axios.get(`/api/export/${wordcloudId}?format=json`)
+      axios.get(`${API_BASE_URL}/api/export/${wordcloudId}?format=json`)
         .then((response) => {
           if (response.data.success && response.data.wordcloud) {
             const wc = response.data.wordcloud;
@@ -72,7 +74,7 @@ const WordCloudGenerator = () => {
       
       console.log(`DEBUG: Sending min_frequency=${minFreq}, max_frequency=${maxFreq}`);
       
-      const response = await axios.post('/api/generate_wordcloud', {
+      const response = await axios.post(`${API_BASE_URL}/api/generate_wordcloud`, {
         text: inputData.text,
         settings: {
           remove_stopwords: inputData.remove_stopwords,
@@ -145,7 +147,7 @@ const WordCloudGenerator = () => {
     formData.append('file', file);
     try {
       setProgress(30);
-      const response = await axios.post('/api/upload_file', formData, {
+      const response = await axios.post(`${API_BASE_URL}/api/upload_file`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setProgress(100);

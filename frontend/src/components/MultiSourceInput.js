@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 const MultiSourceInput = ({ onTextExtracted, onError }) => {
   const [inputType, setInputType] = useState('text'); // text, file, url
   const [text, setText] = useState('');
@@ -44,7 +46,7 @@ const MultiSourceInput = ({ onTextExtracted, onError }) => {
 
     try {
       setProgress(30);
-      const response = await axios.post('/api/upload_file', formData, {
+      const response = await axios.post(`${API_BASE_URL}/api/upload_file`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -80,7 +82,7 @@ const MultiSourceInput = ({ onTextExtracted, onError }) => {
 
     try {
       setProgress(30);
-      const response = await axios.post('/api/process_url', { url });
+      const response = await axios.post(`${API_BASE_URL}/api/process_url`, { url });
       setProgress(100);
 
       if (response.data.success) {
