@@ -77,18 +77,16 @@ const WordCloudDisplay = ({ imageBase64, wordFrequencies, wordContext, sentiment
       </div>
 
       {stats && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-primary-600">{stats.total_words}</div>
-            <div className="text-sm text-gray-600">Unique Words</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-primary-600">{stats.text_length}</div>
-            <div className="text-sm text-gray-600">Characters</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-primary-600 capitalize">{stats.mask_shape}</div>
-            <div className="text-sm text-gray-600">Shape</div>
+        <div className="flex justify-center mb-6 p-4 bg-gray-50 rounded-lg">
+          <div className="grid grid-cols-2 gap-8">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary-600">{stats.total_words}</div>
+              <div className="text-sm text-gray-600">Unique Words</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary-600">{stats.text_length}</div>
+              <div className="text-sm text-gray-600">Characters</div>
+            </div>
           </div>
         </div>
       )}

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL;
-
 // Font options for word clouds
 const FONT_OPTIONS = [
   { value: 'arial', label: 'Arial (Sans-serif)' },
@@ -71,6 +69,7 @@ const WordCloudInput = ({ onGenerate, isLoading, initialText = '', onClear }) =>
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('handleSubmit called, initialText:', initialText);
     if (!initialText.trim()) {
       alert('Please enter some text to generate a word cloud.');
       return;
@@ -551,6 +550,9 @@ const WordCloudInput = ({ onGenerate, isLoading, initialText = '', onClear }) =>
             Clear
           </button>
         </div>
+        {initialText.trim().length > 0 && initialText.trim().length < 10 && (
+          <div className="text-red-500 text-sm mt-2">Please enter at least 10 characters to generate a word cloud.</div>
+        )}
       </form>
     </div>
   );

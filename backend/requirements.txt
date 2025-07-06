@@ -23,5 +23,3 @@ langdetect
 scikit-learn
 gensim
 waitress
-Flask-SocketIO
-eventlet

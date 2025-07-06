@@ -12,9 +12,9 @@ import Footer from './components/Footer';
 // Styles
 import './App.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://wordcloud-n2ew.onrender.com';
-
 // Configure axios defaults
+// Use environment variable for API URL, fallback to proxy for local development
+const API_BASE_URL = process.env.REACT_APP_API_URL || '';
 axios.defaults.baseURL = API_BASE_URL;
 
 // Main App Component

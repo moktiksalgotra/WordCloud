@@ -6,8 +6,6 @@ import WordCloudDisplay from './WordCloudDisplay';
 import MultiSourceInput from './MultiSourceInput';
 import { CloudIcon, DocumentTextIcon, LinkIcon } from '@heroicons/react/24/outline';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL;
-
 const WordCloudGenerator = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [wordCloudData, setWordCloudData] = useState(null);
@@ -28,7 +26,7 @@ const WordCloudGenerator = () => {
       // Fetch the word cloud from the backend
       setIsLoading(true);
       setError(null);
-      axios.get(`${API_BASE_URL}/api/export/${wordcloudId}?format=json`)
+      axios.get(`/api/export/${wordcloudId}?format=json`)
         .then((response) => {
           if (response.data.success && response.data.wordcloud) {
             const wc = response.data.wordcloud;
@@ -60,15 +58,16 @@ const WordCloudGenerator = () => {
   }, [location.search]);
 
   const handleGenerate = async (inputData) => {
+    console.log('handleGenerate called with:', inputData);
     setIsLoading(true);
     setError(null);
     try {
       // Ensure numeric values are properly converted to integers
-      const minFreq = inputData.min_frequency !== undefined && inputData.min_frequency !== '' 
-        ? parseInt(inputData.min_frequency, 10) 
+      const minFreq = inputData.min_frequency && inputData.min_frequency.toString().trim() !== ''
+        ? parseInt(inputData.min_frequency, 10)
         : null;
-      const maxFreq = inputData.max_frequency !== undefined && inputData.max_frequency !== '' 
-        ? parseInt(inputData.max_frequency, 10) 
+      const maxFreq = inputData.max_frequency && inputData.max_frequency.toString().trim() !== ''
+        ? parseInt(inputData.max_frequency, 10)
         : null;
       // Input validation for minFreq and maxFreq
       if ((minFreq !== null && isNaN(minFreq)) || (maxFreq !== null && isNaN(maxFreq))) {
@@ -79,7 +78,7 @@ const WordCloudGenerator = () => {
       
       console.log(`DEBUG: Sending min_frequency=${minFreq}, max_frequency=${maxFreq}`);
       
-      const response = await axios.post(`${API_BASE_URL}/api/generate_wordcloud`, {
+      const response = await axios.post(`/api/generate_wordcloud`, {
         text: inputData.text,
         settings: {
           remove_stopwords: inputData.remove_stopwords,
@@ -152,7 +151,7 @@ const WordCloudGenerator = () => {
     formData.append('file', file);
     try {
       setProgress(30);
-      const response = await axios.post(`${API_BASE_URL}/api/upload_file`, formData, {
+      const response = await axios.post(`/api/upload_file`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setProgress(100);
@@ -208,7 +207,7 @@ const WordCloudGenerator = () => {
                 <textarea
                   id="text-input"
                   value={text}
-                  onChange={(e) => setText(e.target.value)}
+                  onChange={(e) => { console.log('Text area changed:', e.target.value); setText(e.target.value); }}
                   placeholder="Paste or type your text here... (minimum 10 characters)"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 h-48 resize-none text-base"
                   disabled={isLoading}
@@ -293,6 +292,10 @@ const WordCloudGenerator = () => {
               title={wordCloudData.title}
               created_at={wordCloudData.created_at}
             />
+          )}
+          {/* Show error message if present */}
+          {error && (
+            <div className="text-red-600 text-center mt-4">{error}</div>
           )}
         </div>
       </div>
